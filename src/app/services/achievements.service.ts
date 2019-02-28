@@ -1,59 +1,54 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
-import * as initialAchievements from '../../assets/achievements.json';
-
-interface Achievement {
-  name: string;
-  description: string;
-  unlocked: boolean;
-  unlockedAt?: Date;
-  required: {
-    trains?: string[],
-    stations?: string[]
-  };
-}
+import achievements from '../achievements';
+import Achievement from '../models/Achievement.js';
+import Car from '../models/Car.js';
+import UserAchievement from '../models/UserAchievement.js';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AchievementsService {
   constructor(private storage: Storage) {
+    this.achievements = achievements;
     this.init();
   }
 
-  achievements: { [id: string]: Achievement } = {};
-
-  get unlocked(): Achievement[] {
-    if (Object.keys(this.achievements).length > 0) {
-      return Object.values(this.achievements).filter(a => a.unlocked);
-    }
-    return [];
-  }
-
-  get locked(): Achievement[] {
-    if (Object.keys(this.achievements).length > 0) {
-      return Object.values(this.achievements).filter(a => !a.unlocked);
-    }
-    return [];
-  }
+  readonly achievements: { [id: string]: Achievement } = {};
+  userAchievements: { [id: string]: UserAchievement } = {};
 
   init() {
-    this.loadAchievementsFromStorage();
+    this.loadUserAchievementsFromStorage();
   }
 
-  async saveAchievementsToStorage(achievements = this.achievements): Promise<void> {
-    await this.storage.set('achievements', achievements);
+  async saveUserAchievementsToStorage(
+    userAchievements?: { [id: string]: UserAchievement }
+  ): Promise<void> {
+    await this.storage.set('userAchievements', userAchievements || this.userAchievements);
   }
 
-  async loadAchievementsFromStorage(): Promise<void> {
+  async loadUserAchievementsFromStorage(): Promise<void> {
     await this.storage.ready();
-    const achievements = await this.storage.get('achievements');
-    if (achievements) {
-      this.achievements = achievements;
+    const userAchievements = await this.storage.get('userAchievements');
+    if (userAchievements) {
+      this.userAchievements = userAchievements;
     } else {
-      await this.saveAchievementsToStorage((initialAchievements as any).default);
-      this.achievements = (initialAchievements as any).default;
+      this.userAchievements = {};
+      await this.saveUserAchievementsToStorage();
     }
+  }
+
+  checkForNewAchievements(context: { [id: string]: Car }): void {
+    for (const id in this.achievements) {
+      if (!this.userAchievements[id] && this.achievements[id].validator(context)) {
+        const newUserAchievement: UserAchievement = {
+          unlocked: true,
+          unlockedAt: new Date().toISOString(),
+        };
+        this.userAchievements[id] = newUserAchievement;
+      }
+    }
+    this.saveUserAchievementsToStorage();
   }
 }

@@ -1,16 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Geolocation, Coordinates } from '@ionic-native/geolocation/ngx';
-
-interface Car {
-  number: string;
-  entries: number;
-  createdAt: string;
-  coords?: {
-    lat: number,
-    lon: number,
-  };
-}
+import { AchievementsService } from './achievements.service';
+import Car from '../models/Car';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +11,7 @@ export class CarsService {
   constructor(
     private storage: Storage,
     private geolocation: Geolocation,
+    private achievementsService: AchievementsService,
   ) {
     this.init();
   }
@@ -45,18 +38,23 @@ export class CarsService {
   }
 
   async addCar(number: string): Promise<void> {
-    // const coords = await this.geolocation.getCurrentPosition();
-    // console.log(coords);
-    const newCar: Car = {
-      number,
-      entries: 1,
-      createdAt: new Date().toISOString(),
-      // coords: {
-      //   lat: coords.coords.latitude,
-      //   lon: coords.coords.longitude,
-      // },
-    };
-    this.cars[number] = newCar;
+    if (this.cars[number]) {
+      this.cars[number].entries += 1;
+    } else {
+      // const coords = await this.geolocation.getCurrentPosition();
+      // console.log(coords);
+      const newCar: Car = {
+        number,
+        entries: 1,
+        createdAt: new Date().toISOString(),
+        // coords: {
+        //   lat: coords.coords.latitude,
+        //   lon: coords.coords.longitude,
+        // },
+      };
+      this.cars[number] = newCar;
+    }
+    this.achievementsService.checkForNewAchievements(this.cars);
     await this.saveCarsToStorage();
   }
 

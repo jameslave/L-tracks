@@ -12,4 +12,8 @@ export class Tab3Page {
   get achievements() {
     return Object.values(this.achievementsService.achievements);
   }
+
+  get userAchievements() {
+    return Object.values(this.achievementsService.userAchievements);
+  }
 }

@@ -27,13 +27,9 @@ export class Tab1Page {
     }
   }
 
-  async removeCar(number: string): Promise<void> {
-    await this.carsService.removeCar(number);
-  }
-
-  async promptCarID(): Promise<void> {
+  async saveCarFromPrompt(): Promise<void> {
     const alert = await this.alertController.create({
-      header: 'Manual record',
+      header: 'Enter car number',
       inputs: [
         {
           name: 'carNumber',
@@ -49,18 +45,16 @@ export class Tab1Page {
         {
           text: 'OK',
           handler: async (value) => {
-            const toast = await this.toastController.create({
-              message: `Received ${value.carNumber}`,
-              closeButtonText: 'OK',
-              color: 'success',
-              duration: 5000,
-            });
-            toast.present();
+            await this.carsService.addCar(value.carNumber);
           }
         }
       ]
     });
 
     await alert.present();
+  }
+
+  async removeCar(number: string): Promise<void> {
+    await this.carsService.removeCar(number);
   }
 }
