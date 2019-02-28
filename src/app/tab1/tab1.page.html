@@ -11,12 +11,11 @@
     lines="none">
     <ion-item-sliding *ngFor="let car of cars; index as i;">
       <ion-item>
-        <ion-icon name="barcode"
+        <ion-icon [name]="car.source === 'scan' ? 'barcode' : 'create'"
           slot="start"></ion-icon>
         <ion-label>
           <h2>{{ car.number }}</h2>
           <p>{{ car.createdAt }}</p>
-          <!-- <p>({{ car.coords.lat }}, {{ car.coords.lon }})</p> -->
         </ion-label>
       </ion-item>
       <ion-item-options side="end"

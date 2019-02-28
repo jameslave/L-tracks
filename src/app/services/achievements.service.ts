@@ -34,19 +34,29 @@ export class AchievementsService {
     if (userAchievements) {
       this.userAchievements = userAchievements;
     } else {
+      // Initially fill user achievements
       this.userAchievements = {};
+      for (const id in this.achievements) {
+        this.userAchievements[id] = {
+          isAchieved: false,
+          ...(this.achievements[id].type === 'multiple' ? { progress: 0 } : {})
+        };
+      }
       await this.saveUserAchievementsToStorage();
     }
   }
 
   checkForNewAchievements(context: { [id: string]: Car }): void {
     for (const id in this.achievements) {
-      if (!this.userAchievements[id] && this.achievements[id].validator(context)) {
-        const newUserAchievement: UserAchievement = {
-          unlocked: true,
-          unlockedAt: new Date().toISOString(),
-        };
-        this.userAchievements[id] = newUserAchievement;
+      if (!this.userAchievements[id].isAchieved) {
+        const { isAchieved, progress } = this.achievements[id].validator(context);
+        if (isAchieved) {
+          this.userAchievements[id].isAchieved = isAchieved;
+          this.userAchievements[id].achievedAt = new Date().toISOString();
+        }
+        if (progress) {
+          this.userAchievements[id].progress = progress;
+        }
       }
     }
     this.saveUserAchievementsToStorage();

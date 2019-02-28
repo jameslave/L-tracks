@@ -3,5 +3,7 @@ import Car from './Car';
 export default interface Achievement {
   name: string;
   description: string;
-  validator: (context: { [id: string]: Car }) => boolean;
+  type: string;
+  totalSteps?: number;
+  validator: (context: { [id: string]: Car }) => { isAchieved: boolean, progress?: number };
 }

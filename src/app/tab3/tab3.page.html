@@ -7,15 +7,18 @@
 </ion-header>
 
 <ion-content>
-  <ion-list *ngIf="achievements"
+  <ion-list *ngIf="achievements && userAchievements"
     lines="none">
     <ion-item *ngFor="let achievement of achievements; index as id;"
-      disabled="{{ !userAchievements[id] }}">
-      <ion-icon name="{{ userAchievements[id] && userAchievements[id].unlocked ? 'trophy' : 'lock' }}"
+      [disabled]="userAchievements[id] && !userAchievements[id].isAchieved">
+      <ion-icon [name]="userAchievements[id] && userAchievements[id].isAchieved ? 'trophy' : 'lock'"
         slot="start"></ion-icon>
       <ion-label>
         <h2>{{ achievement.name }}</h2>
         <p>{{ achievement.description }}</p>
+        <p *ngIf="userAchievements[id] && (!userAchievements[id].isAchieved && userAchievements[id].progress !== undefined)">
+          {{ userAchievements[id].progress }} out of {{ achievement.totalSteps }}
+        </p>
       </ion-label>
     </ion-item>
   </ion-list>

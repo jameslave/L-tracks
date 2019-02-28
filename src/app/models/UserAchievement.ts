@@ -1,4 +1,5 @@
 export default interface UserAchievement {
-  unlocked?: boolean;
-  unlockedAt?: string;
+  isAchieved: boolean;
+  achievedAt?: string;
+  progress?: number;
 }

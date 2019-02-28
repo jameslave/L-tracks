@@ -1,9 +1,8 @@
 export default interface Car {
-  number: string;
+  source: 'scan' | 'manual';
+  number: number;
+  series: '2600' | '3200' | '5000';
   entries: number;
   createdAt: string;
-  coords?: {
-    lat: number,
-    lon: number,
-  };
+  updatedAt: string;
 }

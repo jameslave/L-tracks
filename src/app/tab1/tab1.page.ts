@@ -23,7 +23,7 @@ export class Tab1Page {
   async saveCarFromBarcode(): Promise<void> {
     const barcodeScanResult = await this.barcodeScanner.scan();
     if (!barcodeScanResult.cancelled && barcodeScanResult.text) {
-      await this.carsService.addCar(barcodeScanResult.text);
+      await this.carsService.addCar(barcodeScanResult.text, 'scan');
     }
   }
 
@@ -45,7 +45,7 @@ export class Tab1Page {
         {
           text: 'OK',
           handler: async (value) => {
-            await this.carsService.addCar(value.carNumber);
+            await this.carsService.addCar(value.carNumber, 'manual');
           }
         }
       ]
