@@ -1,0 +1,8 @@
+{
+  "name": "transit-app",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "id": "97abefc5"
+}

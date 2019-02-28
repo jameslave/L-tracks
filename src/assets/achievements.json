@@ -1,0 +1,12 @@
+{
+  "0": {
+    "name": "Odd Couple",
+    "description": "Ride in car 3457 or 3458",
+    "unlocked": false
+  },
+  "1": {
+    "name": "Hat Track",
+    "description": "Ride in a car 3 times",
+    "unlocked": false
+  }
+}
