@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+
 import { AchievementsService } from './achievements.service';
 import Car from '../models/Car';
 import { ErrorsService } from './errors.service';
@@ -12,9 +13,7 @@ export class CarsService {
     private storage: Storage,
     private errorsService: ErrorsService,
     private achievementsService: AchievementsService,
-  ) {
-    this.init();
-  }
+  ) { }
 
   cars: { [id: string]: Car } = {};
 
@@ -46,7 +45,7 @@ export class CarsService {
     return series;
   }
 
-  private init() {
+  init() {
     this.loadCarsFromStorage();
   }
 
@@ -59,6 +58,7 @@ export class CarsService {
     const cars = await this.storage.get('cars');
     if (cars) {
       this.cars = cars;
+      await this.achievementsService.checkForNewAchievements(this.cars);
     } else {
       this.cars = {};
       await this.saveCarsToStorage({});

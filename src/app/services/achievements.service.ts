@@ -12,7 +12,6 @@ import UserAchievement from '../models/UserAchievement.js';
 export class AchievementsService {
   constructor(private storage: Storage) {
     this.achievements = achievements;
-    this.init();
   }
 
   readonly achievements: { [id: string]: Achievement } = {};
@@ -34,16 +33,19 @@ export class AchievementsService {
     if (userAchievements) {
       this.userAchievements = userAchievements;
     } else {
-      // Initially fill user achievements
       this.userAchievements = {};
-      for (const id in this.achievements) {
+    }
+    for (const id in this.achievements) {
+      if (!this.userAchievements[id]) {
         this.userAchievements[id] = {
           isAchieved: false,
           ...(this.achievements[id].type === 'multiple' ? { progress: 0 } : {})
         };
+      } else {
+        this.userAchievements[id] = userAchievements[id];
       }
-      await this.saveUserAchievementsToStorage();
     }
+    await this.saveUserAchievementsToStorage();
   }
 
   checkForNewAchievements(context: { [id: string]: Car }): void {

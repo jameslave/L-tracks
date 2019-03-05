@@ -3,7 +3,8 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { Storage } from '@ionic/storage';
+import { CarsService } from './services/cars.service';
+import { AchievementsService } from './services/achievements.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,8 @@ export class AppComponent {
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private storage: Storage,
+    private carsService: CarsService,
+    private achievementsService: AchievementsService,
   ) {
     this.initializeApp();
   }
@@ -22,6 +24,8 @@ export class AppComponent {
   async initializeApp() {
     await this.platform.ready();
     this.statusBar.styleDefault();
+    await this.achievementsService.init();
+    await this.carsService.init();
     this.splashScreen.hide();
   }
 }

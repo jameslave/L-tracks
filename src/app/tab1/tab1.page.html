@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
       Cars
     </ion-title>
@@ -8,31 +8,56 @@
 
 <ion-content>
   <ion-list *ngIf="cars"
-    lines="none">
+            lines="none">
+    <ion-item *ngFor="let id of sortedCarIds; index as i;">
+      <ion-avatar slot="start">
+        <img [src]="cars[id].source === 'scan' ? '../../assets/icon/barcode.svg' : '../../assets/icon/pencil.svg'">
+      </ion-avatar>
+      <ion-label>
+        {{ id }}
+        <p>
+          {{ getTimeFromNow(cars[id].updatedAt) }}
+        </p>
+      </ion-label>
+      <ion-note slot="end">
+        <ion-badge color="tertiary">
+          {{ cars[id].entries }}
+        </ion-badge>
+      </ion-note>
+    </ion-item>
+  </ion-list>
+
+  <!-- <ion-list *ngIf="cars">
     <ion-item-sliding *ngFor="let car of cars; index as i;">
       <ion-item>
         <ion-icon [name]="car.source === 'scan' ? 'barcode' : 'create'"
-          slot="start"></ion-icon>
+                  slot="start"></ion-icon>
         <ion-label>
           <h2>{{ car.number }}</h2>
           <p>{{ car.createdAt }}</p>
         </ion-label>
+        <ion-chip color="tertiary">
+          <ion-avatar>
+            <img src="../../assets/icon/barcode.svg">
+          </ion-avatar>
+          <ion-label>Avatar Chip</ion-label>
+        </ion-chip>
       </ion-item>
       <ion-item-options side="end"
-        slot="icon-only">
+                        slot="icon-only">
         <ion-item-option color="danger"
-          (click)="removeCar(car.number)">
+                         (click)="removeCar(car.number)">
           <ion-icon name="trash"
-            size="large"></ion-icon>
+                    size="large"></ion-icon>
         </ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
-  </ion-list>
+  </ion-list> -->
 
   <ion-fab vertical="bottom"
-    horizontal="center"
-    slot="fixed">
-    <ion-fab-button>
+           horizontal="center"
+           slot="fixed">
+    <ion-fab-button color="secondary">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">

@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
+import { AlertController } from '@ionic/angular';
+import { sortBy } from 'lodash';
+import * as distanceInWords from 'date-fns/distance_in_words';
+
 import { BarcodeScannerService } from '../services/barcode-scanner.service';
-import { AlertController, ToastController } from '@ionic/angular';
 import { CarsService } from '../services/cars.service';
+import Car from '../models/Car';
+
 
 @Component({
   selector: 'app-tab1',
@@ -12,12 +17,19 @@ export class Tab1Page {
   constructor(
     private barcodeScanner: BarcodeScannerService,
     private alertController: AlertController,
-    private toastController: ToastController,
     private carsService: CarsService
   ) { }
 
-  get cars() {
-    return Object.values(this.carsService.cars);
+  get cars(): { [id: string]: Car } {
+    return this.carsService.cars;
+  }
+
+  get sortedCarIds(): string[] {
+    const carIds = Object.keys(this.cars);
+    const sortedCarIds = carIds.sort((id1, id2) => {
+      return (new Date(this.cars[id2].updatedAt) as any) - (new Date(this.cars[id1].updatedAt) as any);
+    });
+    return sortedCarIds;
   }
 
   async saveCarFromBarcode(): Promise<void> {
@@ -56,5 +68,9 @@ export class Tab1Page {
 
   async removeCar(number: string): Promise<void> {
     await this.carsService.removeCar(number);
+  }
+
+  getTimeFromNow(dateString: string) {
+    return distanceInWords(new Date(), dateString, { addSuffix: true });
   }
 }
