@@ -73,6 +73,7 @@ export class Tab1Page {
 
   async onPressCar(number: string): Promise<void> {
     const actionSheet = await this.actionSheetController.create({
+      header: `Car ${number}`,
       buttons: [
         {
           text: 'Undo latest ride',
