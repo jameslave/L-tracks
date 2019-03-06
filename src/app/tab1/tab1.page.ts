@@ -77,12 +77,14 @@ export class Tab1Page {
       buttons: [
         {
           text: 'Undo latest ride',
+          icon: 'undo',
           handler: () => {
             this.carsService.undoLatestEntry(number);
           }
         },
         {
           text: 'Delete',
+          icon: 'trash',
           role: 'destructive',
           handler: () => {
             this.carsService.removeCar(number);
