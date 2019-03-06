@@ -5,12 +5,16 @@ import achievements from '../achievements';
 import Achievement from '../models/Achievement.js';
 import Car from '../models/Car.js';
 import UserAchievement from '../models/UserAchievement.js';
+import { MigrationsService } from './migrations.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AchievementsService {
-  constructor(private storage: Storage) {
+  constructor(
+    private storage: Storage,
+    private migrationsService: MigrationsService,
+  ) {
     this.achievements = achievements;
   }
 
@@ -32,6 +36,7 @@ export class AchievementsService {
     const userAchievements = await this.storage.get('userAchievements');
     if (userAchievements) {
       this.userAchievements = userAchievements;
+      this.migrationsService.runUserAchievementsMigrations(this.userAchievements);
     } else {
       this.userAchievements = {};
     }

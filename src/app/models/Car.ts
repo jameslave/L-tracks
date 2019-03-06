@@ -4,5 +4,5 @@ export default interface Car {
   series: '2600' | '3200' | '5000';
   entries: number;
   createdAt: string;
-  updatedAt: string;
+  updatedAt: string[];
 }

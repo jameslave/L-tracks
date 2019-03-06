@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 
-import { AchievementsService } from './achievements.service';
 import Car from '../models/Car';
+import { AchievementsService } from './achievements.service';
 import { ErrorsService } from './errors.service';
+import { MigrationsService } from './migrations.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class CarsService {
     private storage: Storage,
     private errorsService: ErrorsService,
     private achievementsService: AchievementsService,
+    private migrationsService: MigrationsService,
   ) { }
 
   cars: { [id: string]: Car } = {};
@@ -58,11 +60,12 @@ export class CarsService {
     const cars = await this.storage.get('cars');
     if (cars) {
       this.cars = cars;
+      this.migrationsService.runCarsMigrations(this.cars);
       await this.achievementsService.checkForNewAchievements(this.cars);
     } else {
       this.cars = {};
-      await this.saveCarsToStorage({});
     }
+    await this.saveCarsToStorage();
   }
 
   public async addCar(carNumber: number | string, source: 'scan' | 'manual'): Promise<void> {
@@ -71,7 +74,7 @@ export class CarsService {
 
       if (this.cars[cleanCarNumber]) {
         this.cars[cleanCarNumber].entries += 1;
-        this.cars[cleanCarNumber].updatedAt = new Date().toISOString();
+        this.cars[cleanCarNumber].updatedAt.unshift(new Date().toISOString());
       } else {
         const series = this.getCarSeries(cleanCarNumber);
         const newCar: Car = {
@@ -80,7 +83,7 @@ export class CarsService {
           series,
           entries: 1,
           createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
+          updatedAt: [new Date().toISOString()],
         };
         this.cars[cleanCarNumber] = newCar;
       }
@@ -93,6 +96,16 @@ export class CarsService {
 
   public async removeCar(number: string): Promise<void> {
     delete this.cars[number];
+    await this.saveCarsToStorage();
+  }
+
+  public async undoLatestEntry(number: string): Promise<void> {
+    if (this.cars[number].entries === 1) {
+      delete this.cars[number];
+    } else {
+      this.cars[number].entries = this.cars[number].entries - 1;
+      this.cars[number].updatedAt.shift();
+    }
     await this.saveCarsToStorage();
   }
 }
