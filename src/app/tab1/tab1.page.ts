@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ActionSheetController } from '@ionic/angular';
 import { sortBy } from 'lodash';
 import * as distanceInWords from 'date-fns/distance_in_words';
 
@@ -17,6 +17,7 @@ export class Tab1Page {
   constructor(
     private barcodeScanner: BarcodeScannerService,
     private alertController: AlertController,
+    private actionSheetController: ActionSheetController,
     private carsService: CarsService
   ) { }
 
@@ -27,7 +28,7 @@ export class Tab1Page {
   get sortedCarIds(): string[] {
     const carIds = Object.keys(this.cars);
     const sortedCarIds = carIds.sort((id1, id2) => {
-      return (new Date(this.cars[id2].updatedAt) as any) - (new Date(this.cars[id1].updatedAt) as any);
+      return (new Date(this.cars[id2].updatedAt[0]) as any) - (new Date(this.cars[id1].updatedAt[0]) as any);
     });
     return sortedCarIds;
   }
@@ -45,8 +46,8 @@ export class Tab1Page {
       inputs: [
         {
           name: 'carNumber',
-          type: 'text',
-          placeholder: 'e.g., 3233'
+          type: 'number',
+          placeholder: 'e.g., 3233',
         },
       ],
       buttons: [
@@ -66,11 +67,28 @@ export class Tab1Page {
     await alert.present();
   }
 
-  async removeCar(number: string): Promise<void> {
-    await this.carsService.removeCar(number);
-  }
-
   getTimeFromNow(dateString: string) {
     return distanceInWords(new Date(), dateString, { addSuffix: true });
+  }
+
+  async onPressCar(number: string): Promise<void> {
+    const actionSheet = await this.actionSheetController.create({
+      buttons: [
+        {
+          text: 'Undo latest ride',
+          handler: () => {
+            this.carsService.undoLatestEntry(number);
+          }
+        },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            this.carsService.removeCar(number);
+          }
+        },
+      ],
+    });
+    await actionSheet.present();
   }
 }
