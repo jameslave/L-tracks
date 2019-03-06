@@ -1,8 +1,11 @@
 {
-  "name": "trakk",
-  "version": "0.2.1",
-  "author": "James Lave <jlave.dev@gmail.com>",
+  "name": "l-tracks",
+  "author": "James Lave <jlave.dev@gmail.com",
   "homepage": "https://jameslave.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jameslave/l-tracks"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
