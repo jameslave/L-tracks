@@ -21,7 +21,7 @@ export class CarsService {
 
   private getCleanCarNumber(carNumber: number | string): number {
     if (!carNumber || carNumber.toString().length !== 4) {
-      throw new Error('Did not receive valid car number.');
+      throw new Error('Did not receive a valid car number.');
     }
     let cleanNumber: number;
     if (typeof carNumber === 'number') {

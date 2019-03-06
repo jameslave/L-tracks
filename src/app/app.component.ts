@@ -23,7 +23,8 @@ export class AppComponent {
 
   async initializeApp() {
     await this.platform.ready();
-    this.statusBar.styleDefault();
+    this.statusBar.backgroundColorByHexString('#00b3b8');
+    this.statusBar.styleLightContent();
     await this.achievementsService.init();
     await this.carsService.init();
     this.splashScreen.hide();
