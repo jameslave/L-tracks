@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ErrorsService {
 
-  constructor(private toastController: ToastController) { }
+  constructor(
+    private alertController: AlertController,
+  ) { }
 
   async showErrorToast(message: string): Promise<void> {
-    const toast = await this.toastController.create({
+    const alert = await this.alertController.create({
+      header: 'Error',
       message,
-      color: 'danger',
-      showCloseButton: true,
-      position: 'bottom',
-      closeButtonText: 'Close'
+      buttons: ['OK']
     });
-    toast.present();
+    alert.present();
   }
 }
