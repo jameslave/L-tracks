@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.jameslave.l-tracks" version="0.3.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.jameslave.ltracks" version="0.3.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>L Tracks</name>
     <description>Chicago "L" train logger.</description>
     <author email="jlave.dev@gmail.com" href="https://jameslave.com">James Lave</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.1.88:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -50,5 +50,6 @@
     </plugin>
     <plugin name="cordova-sqlite-storage" spec="3.1.0" />
     <plugin name="cordova-plugin-geolocation" spec="4.0.1" />
+    <allow-navigation href="http://192.168.1.88:8100" sessionid="ba66fa4f" />
     <engine name="android" spec="7.1.4" />
 </widget>
