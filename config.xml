@@ -3,7 +3,7 @@
     <name>L Tracks</name>
     <description>Chicago "L" train logger.</description>
     <author email="jlave.dev@gmail.com" href="https://jameslave.com">James Lave</author>
-    <content original-src="index.html" src="http://192.168.1.88:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -51,6 +51,5 @@
     </plugin>
     <plugin name="cordova-sqlite-storage" spec="3.1.0" />
     <plugin name="cordova-plugin-geolocation" spec="4.0.1" />
-    <allow-navigation href="http://192.168.1.88:8100" sessionid="d5385ee1" />
     <engine name="android" spec="7.1.4" />
 </widget>

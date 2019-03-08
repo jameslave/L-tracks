@@ -11,6 +11,24 @@ import { AchievementsService } from './services/achievements.service';
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
+  public appPages = [
+    {
+      title: 'Cars',
+      url: '/cars',
+      icon: 'train'
+    },
+    {
+      title: 'Achievements',
+      url: '/achievements',
+      icon: 'trophy'
+    },
+    // {
+    //   title: 'Settings',
+    //   url: '/settings',
+    //   icon: 'settings'
+    // },
+  ];
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,

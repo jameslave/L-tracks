@@ -1,5 +1,8 @@
 <ion-header>
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
     <ion-title>
       Cars
     </ion-title>
@@ -8,9 +11,9 @@
 
 <ion-content>
   <ion-list *ngIf="cars"
-            lines="none">
+    lines="none">
     <ion-item *ngFor="let id of sortedCarIds; index as i;"
-              (press)="onPressCar(id)">
+      (press)="onPressCar(id)">
       <ion-avatar slot="start">
         <img [src]="cars[id].source === 'scan' ? '../../assets/icon/barcode.svg' : '../../assets/icon/pencil.svg'">
       </ion-avatar>
@@ -29,8 +32,8 @@
   </ion-list>
 
   <ion-fab vertical="bottom"
-           horizontal="center"
-           slot="fixed">
+    horizontal="center"
+    slot="fixed">
     <ion-fab-button color="secondary">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
