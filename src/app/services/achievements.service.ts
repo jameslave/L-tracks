@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { sortBy } from 'lodash';
 
 import achievements from '../achievements';
 import Achievement from '../models/Achievement.js';
@@ -14,15 +15,25 @@ export class AchievementsService {
   constructor(
     private storage: Storage,
     private migrationsService: MigrationsService,
-  ) {
-    this.achievements = achievements;
-  }
+  ) { }
 
-  readonly achievements: { [id: string]: Achievement } = {};
+  achievements: { [id: string]: Achievement } = {};
   userAchievements: { [id: string]: UserAchievement } = {};
 
   init() {
+    this.achievements = this.sortAchievements(achievements);
     this.loadUserAchievementsFromStorage();
+  }
+
+  public sortAchievements(
+    achievementsToSort: {[id: string]: Achievement}
+    ): {[id: string]: Achievement} {
+    const sortedAchievements = {};
+    const sortedEntries = sortBy(Object.entries(achievements), [entry => (entry[1] as Achievement).name.toLowerCase()]);
+    sortedEntries.forEach(entry => {
+      sortedAchievements[`${entry[0]}`] = entry[1];
+    });
+    return sortedAchievements;
   }
 
   async saveUserAchievementsToStorage(

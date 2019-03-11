@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { pickBy } from 'lodash';
+import { pickBy, orderBy} from 'lodash';
 import { AchievementsService } from '../services/achievements.service';
 import Achievement from '../models/Achievement';
 import UserAchievement from '../models/UserAchievement';
@@ -26,10 +26,15 @@ export class Tab3Page {
   }
 
   get unlockedAchievementIds(): string[] {
-    const unlockedIds = Object.entries(this.userAchievements)
-      .filter((userAchievement) => {
+    const unlockedAchievements = Object.entries(this.userAchievements)
+    .filter((userAchievement) => {
         return userAchievement[1].isAchieved;
-      })
+      });
+    const unlockedIds = orderBy(
+      unlockedAchievements,
+      [e => new Date(e[1].achievedAt)],
+      ['desc'],
+      )
       .map(entry => entry[0]);
     return unlockedIds;
   }
