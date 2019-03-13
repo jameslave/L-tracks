@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AlertController, ActionSheetController } from '@ionic/angular';
-import { sortBy } from 'lodash';
 import * as distanceInWords from 'date-fns/distance_in_words';
 
 import { BarcodeScannerService } from '../services/barcode-scanner.service';
@@ -9,11 +8,10 @@ import Car from '../models/Car';
 
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  templateUrl: 'cars.page.html',
+  styleUrls: ['cars.page.scss']
 })
-export class Tab1Page {
+export class CarsPage {
   constructor(
     private barcodeScanner: BarcodeScannerService,
     private alertController: AlertController,

@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
-import { pickBy, orderBy} from 'lodash';
+import { orderBy } from 'lodash';
 import { AchievementsService } from '../services/achievements.service';
 import Achievement from '../models/Achievement';
 import UserAchievement from '../models/UserAchievement';
 
 @Component({
-  selector: 'app-tab3',
-  templateUrl: 'tab3.page.html',
-  styleUrls: ['tab3.page.scss']
+  templateUrl: 'achievements.page.html',
+  styleUrls: ['achievements.page.scss']
 })
-export class Tab3Page {
+export class AchievementsPage {
   constructor(private achievementsService: AchievementsService) { }
 
   get achievements(): { [id: string]: Achievement } {
@@ -27,14 +26,14 @@ export class Tab3Page {
 
   get unlockedAchievementIds(): string[] {
     const unlockedAchievements = Object.entries(this.userAchievements)
-    .filter((userAchievement) => {
+      .filter((userAchievement) => {
         return userAchievement[1].isAchieved;
       });
     const unlockedIds = orderBy(
       unlockedAchievements,
       [e => new Date(e[1].achievedAt)],
       ['desc'],
-      )
+    )
       .map(entry => entry[0]);
     return unlockedIds;
   }

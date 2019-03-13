@@ -11,7 +11,7 @@
 
 <ion-content>
   <ion-list *ngIf="achievements && userAchievements"
-    lines="none">
+            lines="none">
     <ion-list-header>
       <ion-label>Unlocked</ion-label>
     </ion-list-header>
@@ -24,10 +24,9 @@
         {{ achievements[id].name }}
         <p>{{ achievements[id].description }}</p>
       </ion-label>
-      <ion-badge
-        *ngIf="userAchievements[id] && (!userAchievements[id].isAchieved && userAchievements[id].progress !== undefined)"
-        color="tertiary"
-        slot="end">
+      <ion-badge *ngIf="userAchievements[id] && (!userAchievements[id].isAchieved && userAchievements[id].progress !== undefined)"
+                 color="tertiary"
+                 slot="end">
         {{ userAchievements[id].progress }} / {{ achievements[id].totalSteps }}
       </ion-badge>
     </ion-item>
@@ -37,7 +36,7 @@
     </ion-list-header>
 
     <ion-item *ngFor="let id of lockedAchievementIds; index as id;"
-      disabled="true">
+              disabled="true">
       <ion-avatar slot="start">
         <img src="../../assets/icon/{{ achievements[id].iconName }}">
       </ion-avatar>
@@ -45,10 +44,9 @@
         {{ achievements[id].name }}
         <p>{{ achievements[id].description }}</p>
       </ion-label>
-      <ion-badge
-        *ngIf="userAchievements[id] && (!userAchievements[id].isAchieved && userAchievements[id].progress !== undefined)"
-        color="tertiary"
-        slot="end">
+      <ion-badge *ngIf="userAchievements[id] && (!userAchievements[id].isAchieved && userAchievements[id].progress !== undefined)"
+                 color="tertiary"
+                 slot="end">
         {{ userAchievements[id].progress }} / {{ achievements[id].totalSteps }}
       </ion-badge>
     </ion-item>

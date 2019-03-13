@@ -9,11 +9,11 @@ const routes: Routes = [
   },
   {
     path: 'cars',
-    loadChildren: './tab1/tab1.module#Tab1PageModule'
+    loadChildren: './cars/cars.module#CarsPageModule'
   },
   {
     path: 'achievements',
-    loadChildren: './tab3/tab3.module#Tab3PageModule'
+    loadChildren: './achievements/achievements.module#AchievementsPageModule'
   }
 ];
 
@@ -21,4 +21,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
