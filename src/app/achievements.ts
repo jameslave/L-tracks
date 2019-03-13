@@ -15,8 +15,8 @@ export default {
     }
   },
   a1: {
-    name: 'Hat Track',
-    iconName: 'hat-track.svg',
+    name: 'Hat Trick',
+    iconName: 'hat-trick.svg',
     description: 'Ride a single car 3 times',
     type: 'multiple',
     totalSteps: 3,
@@ -29,7 +29,7 @@ export default {
     }
   },
   a2: {
-    name: 'Master of 2600',
+    name: 'Completionist (2600)',
     iconName: 'complete.svg',
     description: 'Ride all active 2600-series cars',
     type: 'multiple',
@@ -43,7 +43,7 @@ export default {
     }
   },
   a3: {
-    name: 'Master of 3200',
+    name: 'Completionist (3200)',
     iconName: 'complete.svg',
     description: 'Ride all active 3200-series cars',
     type: 'multiple',
@@ -57,7 +57,7 @@ export default {
     }
   },
   a4: {
-    name: 'Master of 5000',
+    name: 'Completionist (5000)',
     iconName: 'complete.svg',
     description: 'Ride all active 5000-series cars',
     type: 'multiple',
@@ -113,8 +113,8 @@ export default {
     }
   },
   a8: {
-    name: `Three's a Crowd`,
-    iconName: 'magic-numbers.svg',
+    name: `Triplets (3)`,
+    iconName: 'triplets.svg',
     description: `Ride a car whose ID contains three 3's`,
     type: 'single',
     totalSteps: 1,
@@ -127,8 +127,8 @@ export default {
     }
   },
   a9: {
-    name: `One Is the Loneliest Number`,
-    iconName: 'magic-numbers.svg',
+    name: `Triplets (1)`,
+    iconName: 'triplets.svg',
     description: `Ride a car whose ID contains three 1's`,
     type: 'single',
     totalSteps: 1,
@@ -141,8 +141,8 @@ export default {
     }
   },
   a10: {
-    name: `Two's Company`,
-    iconName: 'magic-numbers.svg',
+    name: `Triplets (2)`,
+    iconName: 'triplets.svg',
     description: `Ride a car whose ID contains three 2's`,
     type: 'single',
     totalSteps: 1,
@@ -151,6 +151,32 @@ export default {
         isAchieved: Object.keys(context).findIndex((key: string) => {
           return (key.match(/2/g) || []).length >= 3;
         }) >= 0,
+      };
+    }
+  },
+  a11: {
+    name: `Triplets (5)`,
+    iconName: 'triplets.svg',
+    description: `Ride a car whose ID contains three 5's`,
+    type: 'single',
+    totalSteps: 1,
+    validator(context: { [id: string]: Car }) {
+      return {
+        isAchieved: Object.keys(context).findIndex((key: string) => {
+          return (key.match(/5/g) || []).length >= 3;
+        }) >= 0,
+      };
+    }
+  },
+  a12: {
+    name: 'Your Lucky Day',
+    iconName: 'lucky-day.svg',
+    description: 'Ride car 3333 or 5555',
+    type: 'single',
+    totalSteps: 1,
+    validator(context: { [id: string]: Car }) {
+      return {
+        isAchieved: context['3333'] !== undefined || context['5555'] !== undefined,
       };
     }
   },
