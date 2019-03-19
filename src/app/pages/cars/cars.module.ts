@@ -12,6 +12,6 @@ import { CarsPage } from './cars.page';
     FormsModule,
     RouterModule.forChild([{ path: '', component: CarsPage }])
   ],
-  declarations: [CarsPage]
+  declarations: [CarsPage],
 })
 export class CarsPageModule { }

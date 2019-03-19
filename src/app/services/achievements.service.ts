@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { sortBy } from 'lodash';
 
@@ -15,6 +16,7 @@ export class AchievementsService {
   constructor(
     private storage: Storage,
     private migrationsService: MigrationsService,
+    private navCtrl: NavController,
   ) { }
 
   achievements: { [id: string]: Achievement } = {};
@@ -26,8 +28,8 @@ export class AchievementsService {
   }
 
   public sortAchievements(
-    achievementsToSort: {[id: string]: Achievement}
-    ): {[id: string]: Achievement} {
+    achievementsToSort: { [id: string]: Achievement }
+  ): { [id: string]: Achievement } {
     const sortedAchievements = {};
     const sortedEntries = sortBy(Object.entries(achievements), [entry => (entry[1] as Achievement).name.toLowerCase()]);
     sortedEntries.forEach(entry => {
@@ -65,18 +67,23 @@ export class AchievementsService {
   }
 
   checkForNewAchievements(context: { [id: string]: Car }): void {
-    for (const id in this.achievements) {
-      if (!this.userAchievements[id].isAchieved) {
-        const { isAchieved, progress } = this.achievements[id].validator(context);
+    for (const achievementId in this.achievements) {
+      if (!this.userAchievements[achievementId].isAchieved) {
+        const { isAchieved, progress } = this.achievements[achievementId].validator(context);
         if (isAchieved) {
-          this.userAchievements[id].isAchieved = isAchieved;
-          this.userAchievements[id].achievedAt = new Date().toISOString();
+          this.userAchievements[achievementId].isAchieved = isAchieved;
+          this.userAchievements[achievementId].achievedAt = new Date().toISOString();
+          this.notifyNewAchievement(achievementId);
         }
         if (progress) {
-          this.userAchievements[id].progress = progress;
+          this.userAchievements[achievementId].progress = progress;
         }
       }
     }
     this.saveUserAchievementsToStorage();
+  }
+
+  async notifyNewAchievement(achievementId: string) {
+    this.navCtrl.navigateForward(`achievement-popover/${achievementId}`);
   }
 }

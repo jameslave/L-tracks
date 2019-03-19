@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { AlertController, ActionSheetController } from '@ionic/angular';
 import * as distanceInWords from 'date-fns/distance_in_words';
 
-import { BarcodeScannerService } from '../services/barcode-scanner.service';
-import { CarsService } from '../services/cars.service';
-import Car from '../models/Car';
+import { BarcodeScannerService } from '../../services/barcode-scanner.service';
+import { CarsService } from '../../services/cars.service';
+import Car from '../../models/Car';
 
 
 @Component({

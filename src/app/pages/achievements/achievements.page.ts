@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { orderBy } from 'lodash';
-import { AchievementsService } from '../services/achievements.service';
-import Achievement from '../models/Achievement';
-import UserAchievement from '../models/UserAchievement';
+import { AchievementsService } from '../../services/achievements.service';
+import Achievement from '../../models/Achievement';
+import UserAchievement from '../../models/UserAchievement';
 
 @Component({
   templateUrl: 'achievements.page.html',
@@ -16,10 +16,13 @@ export class AchievementsPage {
   }
 
   get lockedAchievementIds(): string[] {
-    const lockedIds = Object.entries(this.userAchievements)
-      .filter((userAchievement) => {
-        return !userAchievement[1].isAchieved;
-      })
+    const lockedIds = orderBy(
+      Object.entries(this.achievements)
+        .filter((achievement) => {
+          return !this.userAchievements[achievement[0]].isAchieved;
+        }),
+      [e => e[1].name.toLowerCase()]
+    )
       .map(entry => entry[0]);
     return lockedIds;
   }

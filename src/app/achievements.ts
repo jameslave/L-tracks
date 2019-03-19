@@ -180,4 +180,18 @@ export default {
       };
     }
   },
+  a13: {
+    name: `Triplets (4)`,
+    iconName: 'triplets.svg',
+    description: `Ride a car whose ID contains three 4's`,
+    type: 'single',
+    totalSteps: 1,
+    validator(context: { [id: string]: Car }) {
+      return {
+        isAchieved: Object.keys(context).findIndex((key: string) => {
+          return (key.match(/4/g) || []).length >= 3;
+        }) >= 0,
+      };
+    }
+  },
 };
