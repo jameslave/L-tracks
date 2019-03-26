@@ -13,7 +13,7 @@
   <ion-list *ngIf="cars"
             lines="none">
     <ion-item *ngFor="let id of sortedCarIds; index as i;"
-              (press)="onPressCar(id)">
+              (click)="onPressCar(id)">
       <ion-avatar slot="start">
         <img [src]="cars[id].source === 'scan' ? '../../assets/icon/barcode.svg' : '../../assets/icon/pencil.svg'">
       </ion-avatar>
