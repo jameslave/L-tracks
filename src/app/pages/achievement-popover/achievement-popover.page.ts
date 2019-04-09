@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AchievementsService } from 'src/app/services/achievements.service';
 import Achievement from 'src/app/models/Achievement';
 import { NavController } from '@ionic/angular';
+import renderConfetti from '../../utils/render-confetti';
 
 @Component({
   selector: 'app-achievement-popover',
   templateUrl: './achievement-popover.page.html',
   styleUrls: ['./achievement-popover.page.scss'],
 })
-export class AchievementPopoverPage {
+export class AchievementPopoverPage implements AfterViewInit {
   private achievement: Achievement;
 
   constructor(
@@ -19,6 +20,10 @@ export class AchievementPopoverPage {
   ) {
     const achievementId = this.route.snapshot.paramMap.get('achievementId');
     this.achievement = this.achievementsService.achievements[achievementId];
+  }
+
+  ngAfterViewInit() {
+    renderConfetti();
   }
 
   get achievementName() {
