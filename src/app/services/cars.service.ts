@@ -96,6 +96,7 @@ export class CarsService {
 
   public async removeCar(number: string): Promise<void> {
     delete this.cars[number];
+    this.achievementsService.checkForNewAchievements(this.cars);
     await this.saveCarsToStorage();
   }
 
@@ -106,6 +107,7 @@ export class CarsService {
       this.cars[number].entries = this.cars[number].entries - 1;
       this.cars[number].updatedAt.shift();
     }
+    this.achievementsService.checkForNewAchievements(this.cars);
     await this.saveCarsToStorage();
   }
 }

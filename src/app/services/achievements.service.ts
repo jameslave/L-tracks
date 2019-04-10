@@ -68,16 +68,20 @@ export class AchievementsService {
 
   checkForNewAchievements(context: { [id: string]: Car }): void {
     for (const achievementId in this.achievements) {
-      if (!this.userAchievements[achievementId].isAchieved) {
-        const { isAchieved, progress } = this.achievements[achievementId].validator(context);
-        if (isAchieved) {
-          this.userAchievements[achievementId].isAchieved = isAchieved;
-          this.userAchievements[achievementId].achievedAt = new Date().toISOString();
-          this.notifyNewAchievement(achievementId);
-        }
-        if (progress) {
-          this.userAchievements[achievementId].progress = progress;
-        }
+      const { isAchieved, progress } = this.achievements[achievementId].validator(context);
+      if (isAchieved) {
+        this.userAchievements[achievementId].isAchieved = isAchieved;
+        this.userAchievements[achievementId].achievedAt = new Date().toISOString();
+        this.notifyNewAchievement(achievementId);
+      } else if (this.userAchievements[achievementId].isAchieved) {
+        // If user previously achieved, undo it
+        this.userAchievements[achievementId].isAchieved = false;
+        delete this.userAchievements[achievementId].achievedAt
+      }
+      if (progress === undefined) {
+        delete this.userAchievements[achievementId].progress;
+      } else {
+        this.userAchievements[achievementId].progress = progress;
       }
     }
     this.saveUserAchievementsToStorage();
