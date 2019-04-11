@@ -31,6 +31,7 @@
     "@ionic/angular": "^4.0.0",
     "@ionic/storage": "^2.2.0",
     "@types/lodash": "^4.14.122",
+    "confetti-js": "0.0.14",
     "cordova-android": "7.1.4",
     "cordova-ios": "4.5.5",
     "cordova-plugin-device": "^2.0.2",
